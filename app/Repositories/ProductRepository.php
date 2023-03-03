@@ -3,38 +3,52 @@
 namespace App\Repositories;
 
 use App\Models\Product;
-use App\Repositories\ProductRepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
 
 class ProductRepository implements ProductRepositoryInterface
 {
     public function all(): Collection
     {
-        return Product::all();
+        return Product::all()
+            ->where('user_id', auth()->id());
     }
 
-    public function find($id): Collection
+    public function find($id): Builder|array|Collection|Model
     {
         return Product::query()
             ->findOrFail($id);
     }
 
-    public function create(array $data): Collection
+    public function create(array $data): Model
     {
-        return Product::create($data);
+        return Product::query()
+            ->create([
+                'name' => $data['name'],
+                'description' => $data['description'],
+                'price' => $data['price'],
+                'image' => $data['image']->store('products', 'public')
+            ]);
     }
 
-    public function update(array $data, $id): bool
+    public function update(array $data, $id)
     {
+        if (request()->hasFile('image')) {
+            $data['image'] = request()->image->store('products', 'public');
+        }
+
         return Product::query()
             ->findOrFail($id)
             ->update($data);
     }
 
-    public function delete($id): bool
+    public function delete($id)
     {
-        return Product::query()
-            ->findOrFail($id)
-            ->delete();
+        $product = Product::query()
+            ->findOrFail($id);
+
+        return $product->delete();
     }
 }

@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('name');
             $table->string('description');
+            $table->string('image');
             $table->integer('price');
             $table->timestamps();
         });

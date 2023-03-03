@@ -31,10 +31,11 @@ class AuthService
         ]);
     }
 
-    public function register($data)
+    public function register($data): JsonResponse
     {
         $user = User::create([
             'name' => $data->name,
+            'last_name' => $data->last_name,
             'email' => $data->email,
             'password' => Hash::make($data->password),
         ]);

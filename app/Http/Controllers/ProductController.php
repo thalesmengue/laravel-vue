@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductStoreRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Product;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\JsonResponse;
@@ -46,7 +47,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function update(ProductStoreRequest $request, $id): JsonResponse
+    public function update(ProductUpdateRequest $request, $id): JsonResponse
     {
         $product = $this->productRepository->update($request->all(), $id);
 

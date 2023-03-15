@@ -12,16 +12,4 @@ class ProductObserver
     {
         $product->user_id = auth()->id();
     }
-
-    public function updating(Product $product): void
-    {
-        if (request()->hasFile('image')) {
-            File::delete(public_path('storage/' . $product->image));
-        }
-    }
-
-    public function deleting(Product $product): void
-    {
-        File::delete(public_path('storage/' . $product->image));
-    }
 }

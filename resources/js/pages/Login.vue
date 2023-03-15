@@ -1,31 +1,38 @@
 <script>
 import Cookies from 'js-cookie';
+
 export default {
     name: "Login",
     data() {
         return {
             email: '',
-            password: ''
+            password: '',
+            errors: []
         }
     },
 
     methods: {
         login() {
-            fetch(`http://127.0.0.1:8000/api/login`, {
-                method: 'POST',
+            const config = {
                 headers: {
-                    'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: this.email,
-                    password: this.password
-                })
-            })
-                .then(response => response.json())
+                    'Content-Type': 'application/json',
+                    'Access': 'application/json',
+                }
+            }
+
+            const data = {
+                email: this.email,
+                password: this.password
+            }
+
+            axios.post(`http://127.0.0.1:8000/api/login`, data, config)
                 .then(res => {
-                    Cookies.set('token', res.authorization.token)
+                    Cookies.set('token', res.data.authorization.token)
                     this.$router.push({name: 'ProductIndex'})
+                })
+                .catch(err => {
+                    this.errors = err.response.data.errors
                 })
         }
     }
@@ -52,7 +59,8 @@ export default {
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                         <div class="mt-1">
-                            <input id="password" name="password" type="password" autocomplete="current-password" v-model="password"
+                            <input id="password" name="password" type="password" autocomplete="current-password"
+                                   v-model="password"
                                    required=""
                                    class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400
                                     shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"/>

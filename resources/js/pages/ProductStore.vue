@@ -35,18 +35,12 @@ export default {
             formData.append('price', this.price);
             formData.append('image', this.image);
 
-            fetch(`http://127.0.0.1:8000/api/products`, {
-                method: 'POST',
-                config,
-                body: formData
-            })
-                .then(response => response.json())
+            axios.post(`http://127.0.0.1:8000/api/products`, formData, config)
                 .then(res => {
-                    if (res.errors) {
-                        this.errors = res.errors
-                    } else {
-                        this.$router.push({name: 'ProductIndex'})
-                    }
+                    this.$router.push({name: 'ProductIndex'})
+                })
+                .catch(err => {
+                    this.errors = err.response.data.errors
                 })
         }
     }
@@ -65,16 +59,27 @@ export default {
                         <input type="text" placeholder="name" name="name" id="name" v-model="name"
                                class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
                     </div>
+                    <div>
+                        <div class="text-center text-xs text-red-600 mt-2">
+                            <span v-if="errors.name">{{ errors.name[0] }}</span>
+                        </div>
+                    </div>
                     <div class="mt-4">
                         <label class="block" for="description">Description</label>
                         <input type="text" placeholder="description" name="description" id="description"
                                v-model="description"
                                class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
                     </div>
+                    <div class="text-center text-xs text-red-600 mt-2">
+                        <span v-if="errors.description">{{ errors.description[0] }}</span>
+                    </div>
                     <div class="mt-4">
                         <label class="block" for="price">Price</label>
                         <input type="text" placeholder="price" name="price" id="price" v-model="price"
                                class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+                    </div>
+                    <div class="text-center text-xs text-red-600 mt-2">
+                        <span v-if="errors.price">{{ errors.price[0] }}</span>
                     </div>
                     <div class="mt-4">
                         <label class="mb-2 inline-block" for="image">Image</label>
@@ -88,6 +93,9 @@ export default {
                                    file:[margin-inline-end:0.75rem] file:[border-inline-end-width:1px] hover:file:bg-neutral-200
                                     focus:border-primary focus:bg-white focus:text-neutral-700 focus:shadow-[0_0_0_1px]
                                     focus:shadow-primary focus:outline-none">
+                    </div>
+                    <div class="text-center text-xs text-red-600 mt-2">
+                        <span v-if="errors.image">{{ errors.image[0] }}</span>
                     </div>
                     <div class="flex justify-center items-center">
                         <button class="px-6 py-2 mt-4 text-white bg-indigo-600 rounded-lg hover:bg-indigo-900"

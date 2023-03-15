@@ -15,27 +15,27 @@ export default {
 
     methods: {
         register() {
-            fetch(`http://127.0.0.1:8000/api/register`, {
-                method: 'POST',
+            const config = {
                 headers: {
+                    'Accept': 'application/json',
                     'Content-Type': 'application/json',
                     'Access': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: this.name,
-                    last_name: this.last_name,
-                    email: this.email,
-                    password: this.password
-                })
-            })
-                .then(response => response.json())
+                }
+            }
+
+            const data = {
+                name: this.name,
+                last_name: this.last_name,
+                email: this.email,
+                password: this.password
+            }
+
+            axios.post(`http://127.0.0.1:8000/api/register`, data, config)
                 .then(res => {
-                    if (res.errors) {
-                        this.errors = res.errors
-                    } else {
-                        this.$router.push({name: 'Login'})
-                    }
+                    this.$router.push({name: 'Login'})
+                })
+                .catch(err => {
+                    this.errors = err.response.data.errors
                 })
         }
     }

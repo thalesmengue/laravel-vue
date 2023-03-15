@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
 {
@@ -47,14 +48,14 @@ class ProductController extends Controller
         ]);
     }
 
-    public function update(ProductUpdateRequest $request, $id): JsonResponse
+    public function edit(ProductUpdateRequest $request, $id): JsonResponse
     {
-        $product = $this->productRepository->update($request->all(), $id);
+            $updated = $this->productRepository->update($request->all(), $id);
 
-        return response()->json([
-            'success' => true,
-            'product' => $product,
-        ]);
+            return response()->json([
+                'success' => $updated['success'],
+                'product' => $updated['product'],
+                ], $updated['success'] ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
     }
 
     public function destroy($id): JsonResponse

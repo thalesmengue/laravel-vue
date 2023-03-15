@@ -2,6 +2,7 @@
 import NavBar from "../components/NavBar.vue";
 import router from "../router";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 export default {
     name: "ProductIndex",
@@ -19,24 +20,26 @@ export default {
         },
 
         showProduct(id) {
-            fetch(`http://127.0.0.1:8000/api/products/${id}`, {
+            const config = {
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('token')
                 }
-            }).then(response => response.json())
+            }
+
+            axios.get(`http://127.0.0.1:8000/api/products/${id}`, config)
                 .then(res => {
                     this.$router.push({name: 'ProductShow', params: {id: id}})
                 })
         },
 
         deleteProduct(id) {
-            fetch(`http://127.0.0.1:8000/api/products/${id}`, {
-                method: 'DELETE',
+            const config = {
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('token')
                 }
-            })
-                .then(response => response.json())
+            }
+
+            axios.delete(`http://127.0.0.1:8000/api/products/${id}`, config)
                 .then(res => {
                     location.reload()
                 })
@@ -44,13 +47,15 @@ export default {
     },
 
     created() {
-        fetch(`http://127.0.0.1:8000/api/products`, {
+        const config = {
             headers: {
-                'Authorization': 'Bearer ' + Cookies.get('token'),
-            },
-        }).then(response => response.json())
+                'Authorization': 'Bearer ' + Cookies.get('token')
+            }
+        }
+
+        axios.get(`http://127.0.0.1:8000/api/products`, config)
             .then(res => {
-                this.products = res.products
+                this.products = res.data.products
             })
     }
 }
@@ -106,7 +111,7 @@ export default {
                                 </td>
                                 <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                     <button @click="showProduct(product.id)"
-                                        class="text-indigo-600 hover:text-indigo-900">Show
+                                            class="text-indigo-600 hover:text-indigo-900">Show
                                     </button>
                                     <button @click="deleteProduct(product.id)"
                                             class="text-red-600 hover:text-red-900 ml-6"> Delete

@@ -25,7 +25,15 @@ class ProductUpdateRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'price' => ['required', 'numeric'],
-            'image' => ['image']
         ];
+    }
+
+    private function getValidationRule(): string
+    {
+        if (request()->hasFile('image')) {
+            return 'image';
+        }
+
+        return 'string';
     }
 }

@@ -25,7 +25,7 @@ class ProductController extends Controller
         return response()->json([
             'success' => true,
             'products' => $products,
-        ]);
+        ], Response::HTTP_OK);
     }
 
     public function store(ProductStoreRequest $request): JsonResponse
@@ -35,7 +35,7 @@ class ProductController extends Controller
         return response()->json([
             'success' => true,
             'product' => $product,
-        ]);
+        ], Response::HTTP_CREATED);
     }
 
     public function show($id): JsonResponse
@@ -45,7 +45,7 @@ class ProductController extends Controller
         return response()->json([
             'success' => true,
             'product' => $product,
-        ]);
+        ], Response::HTTP_OK);
     }
 
     public function edit(ProductUpdateRequest $request, $id): JsonResponse
@@ -67,6 +67,6 @@ class ProductController extends Controller
         return response()->json([
             'success' => true,
             'product' => $product
-        ]);
+        ], Response::HTTP_NO_CONTENT);
     }
 }

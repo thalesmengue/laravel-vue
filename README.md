@@ -1,13 +1,14 @@
-<h1>Application to register products with JWT Authentication and VueJS</h1>
+# Application to register products with JWT Authentication and VueJS
 
-<h3>The idea</h3>
+### The idea
 The idea to make this project came from the backend challenges Github repository, to be more specific,
 from the [Orbital test](https://gitlab.com/orbital-code/orbital/tests/backend-developer/-/tree/master). The challenge
 consist in create a application to register products with JWT authentication, and consume this API with VueJS.
 
-<h3>How to setup the project</h3>
-To setup the project, follow the steps below
-```bash
+### How to setup the project
+To setup the project, follow the steps below:
+
+```
 # clone the repository
 $ git clone git@github.com:thalesmengue/orbital-test.git
 
@@ -34,12 +35,11 @@ $ php artisan migrate
 # then you can run the project
 $ php artisan serve
 
-&&
-
 $ npm run dev
 ```
 
-<h3>References</h3>
+### References
+
 [PHP 8.1](https://www.php.net/docs.php)
 <br>
 [Laravel 10.0](https://laravel.com/docs/10.x/installation)

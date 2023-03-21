@@ -6,8 +6,9 @@ from the [Orbital test](https://gitlab.com/orbital-code/orbital/tests/backend-de
 consist in create a application to register products with JWT authentication, and consume this API with VueJS.
 
 <h3>How to setup the project</h3>
-To setup the project, follow the steps below
-```bash
+To setup the project, follow the steps below:
+
+```
 # clone the repository
 $ git clone git@github.com:thalesmengue/orbital-test.git
 
@@ -33,8 +34,6 @@ $ php artisan migrate
 
 # then you can run the project
 $ php artisan serve
-
-&&
 
 $ npm run dev
 ```
